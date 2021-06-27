@@ -2,10 +2,10 @@
 <html>
 <head>
 <meta charset="utf-8" />
-<title>タイピングアプリ</title>
+<title>Happy Typing</title>
 <style>
 body {
-font-size: 6em; 
+font-size: 1em;
 text-align: center;
 }
 #count {
@@ -20,60 +20,181 @@ background-color: #666;
 font-weight: bold;
 color: #fff;
 }
-
 span {
     transition: all 300ms 0s ease;
 }
-
 .add-color {
     font-size: 0.5em;
     color: #666;
 }
-
+.namein {
+    font-size: 6em;
+}
 </style>
 </head>
 <body>
+<p id="titlename">自己肯定感向上タイピング</p>
 <p id="count">60</p>
 <div id="wrap">
+<p id="modetxt">モードを選択してください</p>
+<input type="button" value="名前ありモード(推奨)" id="nameOn" onclick="nameOn()">
+<input type="button" value="名前なしモード" id="nameOff" onclick="nameOff()">
+<p id="nametxt" style=display:none>あなたの名前を半角英数字で入力してください。</p>
 <p id="text"></p>
+<center><input type="text" id="nameinput" style=display:none><br>
+<p id="homeCtxt" style=display:none>褒めコースを選択してください</p>
+<input type="button" value="お名前をセットする" id="namecheck" onclick="chkName()" style=display:none></center>
+<label id="koumoku" style=display:none><input type="checkbox" id="kawaii" class="3taku">かわいい</label>
+<label id="koumoku2" style=display:none><input type="checkbox" id="kakkoii" class="3taku">かっこいい</label>
+<label id="koumoku3" style=display:none><input type="checkbox" id="nandemo" class="3taku">何でもできる</label>
+<br><center><input type="button" value="褒めコースセット" id="checkButton" style=display:none></center>
+<p id="starttxt" style=display:none>スタートを押して褒めインプット開始！</p>
+<center><button id="start" style=display:none>スタート！</button></center>
 </div>
-<button id="start">スタート</button>
 
 <script>
+//名前ありモードを選択したとき
+function nameOn(){
+    nameinput.style.display = 'block';
+    nametxt.style.display = 'block';
+    namecheck.style.display = 'block';
+    modetxt.style.display = 'none';
+    nameON.style.display = 'none';
+    nameOFF.style.display = 'none';
+}
+
+//名前なしモードを選択したとき
+function nameOff(){
+    homeCtxt.style.display='block'
+    checkButton.style.display ='block';
+    koumoku.style.display = 'block';
+    koumoku2.style.display = 'block';
+    koumoku3.style.display = 'block';
+    modetxt.style.display = 'none';
+    nameON.style.display = 'none';
+    nameOFF.style.display = 'none';
+}
+function chkName(){
+    const namein = document.getElementById('nameinput').value
+    if (namein.match(/[^A-Za-z0-9]+/)){
+        alert('半角英数字ではありません');
+    }
+    else {
+        nameinput.style.display = 'none'
+        nametxt.style.display = 'none'
+        namecheck.style.display = 'none'
+        homeCtxt.style.display='block'
+        checkButton.style.display ='block';
+        koumoku.style.display = 'block';
+        koumoku2.style.display = 'block';
+        koumoku3.style.display = 'block';
+    }
+    }
+
+function butotnClick(){
+   let kakunin = document.getElementsByClassName('3taku')
+        let count = 0;
+    	for (var i = 0; i < kakunin.length; i++) {
+		if (kakunin[i].checked) {
+			count++;
+		}
+	}
+    	if (count > 0) {
+    	    textList=[];
+        if (kawaii.checked){
+            textList = textList.concat(textlistkawaii);
+        } else {
+            console.log('かわいくない');
+        }
+        if (kakkoii.checked){
+            textList = textList.concat(textlistkakkoii);
+        } else {
+            console.log('かっこよくない');
+        }
+        if (nandemo.checked){
+            textList = textList.concat(textlistnandemo);
+        }else{
+            console.log('uuu');
+        }
+        
+        koumoku.style.display = 'none'
+        koumoku2.style.display = 'none'
+        koumoku3.style.display = 'none'
+        kawaii.style.display = 'none'
+        kakkoii.style.display = 'none'
+        nandemo.style.display = 'none'
+        homeCtxt.style.display='none'
+        checkButton.style.display = 'none';
+        starttxt.style.display = 'block';
+        start.style.display = 'block';
+	} else {
+	    	alert("項目を1つ以上選択してください。");
+	    	return false;
+	}
+  
+  
+  }
+
+const modetxt = document.getElementById('modetxt')
+const nameON = document.getElementById('nameOn')
+const nameOFF = document.getElementById('nameOff')
+const homeCtxt = document.getElementById('homeCtxt')
+const namecheck =document.getElementById('namecheck')
+const nametxt =  document.getElementById('nametxt')
+const nameinput = document.getElementById('nameinput')
+const koumoku = document.getElementById('koumoku')
+const koumoku2 = document.getElementById('koumoku2')
+const koumoku3 = document.getElementById('koumoku3')
+const starttxt = document.getElementById('starttxt')
+let kawaii = document.getElementById('kawaii');
+let kakkoii = document.getElementById('kakkoii');
+let nandemo = document.getElementById('nandemo');
+
+let checkButton = document.getElementById('checkButton');
+checkButton.addEventListener('click', butotnClick);
+
+let textList=[];
+let textlistkawaii =[
+    'kawaii','cute','verycute'];
+let textlistkakkoii =[
+    'kakkoii','hansamu','ikemen'];
+let textlistnandemo =[
+    'nandemodekiru','kanarazudekiru','subarashii'];
 const wrap = document.getElementById('wrap');
 const start = document.getElementById('start');
-
-const textLists = [
-    'Nishikei','Sugoi','Yappari','happy',
-];
-
 let checkTexts = [];
 let score = 0;
 
 const createText = () => {
 const p = document.getElementById('text');
-const rnd = Math.floor(Math.random() * textLists.length);
-
-p.textContent = '';
-
-checkTexts = textLists[rnd].split('').map(value => {
-const span = document.createElement('span');
-
-span.textContent = value;
-p.appendChild(span);
-
-return span;
+const rnd = Math.floor(Math.random() * textList.length);
+    p.textContent = '';
+if (nameinput.value==''){
+    let mondai = textList[rnd];
+    checkTexts = mondai.split('').map(value => {
+    const span = document.createElement('span');
+    span.textContent = value;
+    p.appendChild(span);
+    return span;
+    })
+}
+else{
+    let mondai = nameinput.value + " " + textList[rnd];
+    checkTexts = mondai.split('').map(value => {
+    const span = document.createElement('span');
+    span.textContent = value;
+    p.appendChild(span);
+    return span;
 })
-};
+}
+}
 
 const keyDown = e => {
 wrap.style.backgroundColor = '#666';
 if(e.key === checkTexts[0].textContent) {
 checkTexts[0].className = 'add-color';
-
 checkTexts.shift();
 score++;
-
 if(!checkTexts.length) createText();
 } else if(e.key === 'Shift') {
     wrap.style.backgroundColor = '#666';
@@ -86,11 +207,11 @@ let text = '';
 if(score < 100) {
 text = `あなたのランクはCです。\nBランクまであと${100 - score}文字です。`;
 } else if(score < 200) {
-text = `あなたのランクはBです。\nAランクまであと${200 - score}文字です。`;    
+text = `あなたのランクはBです。\nAランクまであと${200 - score}文字です。`;
 } else if(score < 300) {
-text = `あなたのランクはAです。\nSランクまであと${300 - score}文字です。`;    
+text = `あなたのランクはAです。\nSランクまであと${300 - score}文字です。`;
 } else if(score >= 300) {
-text = `あなたのランクはSです。\nおめでとうございます！`;    
+text = `あなたのランクはSです。\nおめでとうございます！`;
 }
 // 生成したメッセージと一緒に文字列を返す
 return `${score}文字打てました！\n${text}\n【OK】リトライ／【キャンセル】終了`;
@@ -114,10 +235,13 @@ if(time <= 0) clearInterval(id);
 count.textContent = time--;
 }, 1000);
 };
+
+start.style.display = 'none';
 start.addEventListener('click', () => {
 timer(); // タイマー関数を追記する
 createText();
 start.style.display = 'none';
+starttxt.style.display = 'none';
 document.addEventListener('keydown', keyDown);
 })
 </script>
